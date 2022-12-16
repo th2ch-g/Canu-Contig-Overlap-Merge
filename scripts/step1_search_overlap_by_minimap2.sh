@@ -11,6 +11,9 @@ cat $target_final_assembly | rg -v ">" | while IFS= read -r line; do count=$(( $
 scaffold_number=0
 for i in $(ls tmp.*.list);
 do
+    if [ $(cat $i | wc -l) -eq 1 ]; then
+        continue
+    fi
     scaffold_number=$(( $scaffold_number + 1 ))
     mkdir scaffold_$scaffold_number
     cd scaffold_$scaffold_number
@@ -56,6 +59,4 @@ do
     cd ..
 
 done
-
-
 

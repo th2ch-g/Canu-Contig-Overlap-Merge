@@ -167,9 +167,6 @@ with open(paf_link_file) as ref:
             backward_fasta = res.stdout.rstrip()
             out_file.write(backward_fasta)
 
-
         #os.system('echo "" >> ' + out_file)
         out_file.write("\n")
-
-
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Input path of scripts directory
-export PATH="<PATH>/Canu-Contig-Overlap-Merge/scirpts:$PATH"
+export PATH="<PATH>/Canu-Contig-Overlap-Merge/scripts:$PATH"
 
 #######################################################################
 USAGE='
@@ -32,6 +32,7 @@ assembly_flag=0
 contig_flag=0
 identity="0.99"
 N_nums="500"
+prefix="out"
 while :;
 do
     case $1 in
@@ -39,13 +40,14 @@ do
             echo "$USAGE" >&1
             exit 0
             ;;
-        -a | --assemblyfile)
+        -a | --assembly-file)
             assembly_flag=1
             if [ -z "$2" ]; then
                 echo "[ERROR] assembly file name is not detected." >&2
                 exit 1
             fi
             assembly_file=$2
+            shift
             ;;
         -c | --contig)
             contig_flag=1
@@ -54,6 +56,7 @@ do
                 exit 1
             fi
             contig_file=$2
+            shift
             ;;
         -p | --prefix)
             if [ -z "$2" ]; then
@@ -61,6 +64,7 @@ do
                 exit 1
             fi
             prefix="$2"
+            shift
             ;;
         -i | --identity)
             if [ -z "$2" ]; then
@@ -68,6 +72,7 @@ do
                 exit 1
             fi
             identity="$2"
+            shift
             ;;
         -N | --scaffold-gap)
             if [ -z "$2" ]; then
@@ -75,6 +80,7 @@ do
                 exit 1
             fi
             N_nums="$2"
+            shift
             ;;
         --)
             shift
@@ -129,7 +135,7 @@ step4_merge_dup.py $contig_file $assembly_file ${prefix}.merged.fasta ../step2/o
 cd ..
 
 # Step5: add other seq
-mkdir sstep5
+mkdir step5
 cd step5
 step5_add_other_seq.sh $contig_file ${prefix}.merged.added.fasta ../step2/out.filtered.paf ../step4/${prefix}.merged.fasta
 cd ..
